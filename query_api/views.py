@@ -51,4 +51,4 @@ class QueryViewSet(viewsets.GenericViewSet):
     @detail_route(methods=['GET'])
     def get_geojson(self, request, pk=None):
         query = self.get_object()
-        return Response(text_query("Hello"))
+        return Response(text_query(query.query_text))
