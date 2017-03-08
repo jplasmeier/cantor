@@ -6,10 +6,13 @@ Cantor loosely follows RESTful and HATEOAS design principles.
 
 ## Installation
 
-* Clone this repository
-* Create a Python3 virtualenv: `python3 -m env ./env`
+You will need to have `pyvenv-3.5` installed. 
+
+* Clone this repository, `cd` into it.
+* Create a Python3 virtualenv: `python3 -m venv ./env`
+* Activate the virtual environment: `source env/bin/activate`
 * Install requirements with pip: `pip install -r requirements.txt`
-* Make migrations
-* Run migrations
-* Run the server
+* Make migrations: `python manage.py makemigrations`
+* Run migrations: `python manage.py migrate`
+* Run the server: `python manage.py runserver`
 
