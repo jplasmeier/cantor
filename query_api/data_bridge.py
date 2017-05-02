@@ -5,7 +5,7 @@ import pprint
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-engine = create_engine('postgresql://cantor:navigational@localhost/cantor_proto')
+engine = create_engine('postgresql://cantor:navigational@localhost/postgres')
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -17,20 +17,26 @@ def selection_query(text):
     Post-processes the data into valid GeoJSON
     This is dependent on the Schema of the table...maybe?
     """
-    result = session.execute(text);
+    result = session.execute(text)
+    header = result.keys()
+    print(header)
     row = result.fetchone()
     feature_collection = {"type":"FeatureCollection"}
     feature_collection["features"] = []
     while row is not None:
         print("Row: ", row)
         feature = {"type":"Feature"}
-        print("Geometry: ", row[0])
-        feature["geometry"] = json.loads(row[0])
-        feature["properties"] = {}
-        feature["properties"]["name"] = row[1]
-        feature_collection["features"].append(feature)
+        if row[0]:
+            feature["geometry"] = json.loads(row[0])
+            if row[1] is not None:
+                feature["properties"] = {}
+                feature["properties"]["name"] = row[1]
+                feature["properties"]["marker-symbol"] = "marker"
+                for col, r in zip(header[1:] ,row[1:]):
+                    feature["properties"][col] = r
+                feature_collection["features"].append(feature)
         row = result.fetchone()
-    pprint.pprint(feature_collection)
+    #pprint.pprint(feature_collection)
     return feature_collection
 
 

@@ -20,7 +20,7 @@ class QueryObjectSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('short_description',
                   'long_description',
                   'visual_representation',
-                  'geojson_url',
+                  'next_query',
                   'query_ref',
                   'mapbox_aux',)
 
